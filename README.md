@@ -39,7 +39,7 @@ Angela Hudson's GitHub Pages user site — privacy policy host and landing page.
 **Live:** [dacameragirl.github.io](https://dacameragirl.github.io/)
 
 <p align="center"><img src="docs/readme-divider.svg" width="720" alt="" /></p>
-<p align="center"><img src="https://capsule-render.vercel.app/api?type=rect&color=070b14&height=50&section=header&text=Pages&fontSize=22&fontColor=e6edf3" width="720" alt="Pages" /></p>
+<p align="center"><img src="https://capsule-render.vercel.app/api?type=waving&color=0:070b14,100:12102a&height=50&section=header&text=Pages&fontSize=22&fontColor=e6edf3&animation=twinkling" width="720" alt="Pages" /></p>
 
 
 | URL | Purpose |
@@ -48,7 +48,7 @@ Angela Hudson's GitHub Pages user site — privacy policy host and landing page.
 | `/privacy-policy/` | ENV_OPEN_CLAW WHOOP integration policy |
 
 <p align="center"><img src="docs/readme-divider.svg" width="720" alt="" /></p>
-<p align="center"><img src="https://capsule-render.vercel.app/api?type=rect&color=070b14&height=50&section=header&text=Contact&fontSize=22&fontColor=e6edf3" width="720" alt="Contact" /></p>
+<p align="center"><img src="https://capsule-render.vercel.app/api?type=waving&color=0:070b14,100:12102a&height=50&section=header&text=Contact&fontSize=22&fontColor=e6edf3&animation=twinkling" width="720" alt="Contact" /></p>
 
 
 Privacy questions: [angela.hudson.data@gmail.com](mailto:angela.hudson.data@gmail.com)
