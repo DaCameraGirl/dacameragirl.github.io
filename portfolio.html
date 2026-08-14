@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DaCameraGirl — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0f0a1a; --bg2:#1a1130; --card:#21143aee; --card2:#2a1850;
+  --pink:#ff3d9a; --purple:#8b5cf6; --cyan:#22d3ee; --amber:#fbbf24;
+  --text:#f0e8ff; --muted:#a898c8; --border:#3a2566;
+  --green:#34d399;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',system-ui,sans-serif;background:radial-gradient(1200px 800px at 15% -10%, #3b1a6b44, transparent), radial-gradient(1000px 600px at 90% 0%, #ff3d9a1a, transparent), var(--bg); color:var(--text); min-height:100vh; padding:28px 22px 60px}
+.wrap{max-width:1150px;margin:0 auto}
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:26px}
+h1{font-size:2.1rem;font-weight:800;letter-spacing:-.02em}
+h1 span{background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:.95rem}
+.pill{background:#ffffff14;border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:.82rem;color:var(--muted)}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+@media(max-width:900px){.grid4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.grid4{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--card),#1c1035ee);border:1px solid var(--border);border-radius:18px;padding:18px 18px;box-shadow:0 10px 40px #00000040}
+.stat-label{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.stat-val{font-size:2rem;font-weight:800}
+.stat-val.pink{color:var(--pink)}
+.stat-val.purple{color:var(--purple)}
+.stat-val.cyan{color:var(--cyan)}
+.stat-val.amber{color:var(--amber)}
+.stat-sub{font-size:.8rem;color:var(--muted);margin-top:2px}
+.chart-card{margin-bottom:22px}
+.chart-card h2{font-size:1.05rem;font-weight:700;margin-bottom:12px;color:var(--text)}
+.chart-wrap{position:relative;height:260px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.toolbar input,.toolbar select{background:#1a0f32;border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:.9rem;outline:none}
+.toolbar input{flex:1;min-width:200px}
+.toolbar input:focus,.toolbar select:focus{border-color:var(--purple)}
+.badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:.72rem;font-weight:600}
+.badge-private{background:#fbbf2422;color:var(--amber);border:1px solid #fbbf2433}
+.badge-public{background:#34d39922;color:var(--green);border:1px solid #34d39933}
+table{width:100%;border-collapse:separate;border-spacing:0}
+thead th{position:sticky;top:0;background:#22143d;z-index:2;text-align:left;font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;white-space:nowrap}
+thead th:hover{color:var(--text)}
+tbody td{padding:12px 14px;border-bottom:1px solid #2e1c52;font-size:.92rem;vertical-align:top}
+tbody tr{transition:background .12s}
+tbody tr:hover{background:#ffffff08}
+.repo-name{font-weight:600;color:var(--text)}
+.repo-name a{color:inherit;text-decoration:none}
+.repo-name a:hover{color:var(--cyan)}
+.date-col{color:var(--muted);white-space:nowrap;font-size:.86rem}
+.grid-wrap{max-height:580px;overflow:auto;border-radius:14px}
+.grid-wrap::-webkit-scrollbar{width:8px;height:8px}
+.grid-wrap::-webkit-scrollbar-thumb{background:#3a2566;border-radius:4px}
+.count-note{font-size:.82rem;color:var(--muted);margin-left:auto}
+footer{margin-top:28px;color:var(--muted);font-size:.82rem;text-align:center}
+a{color:var(--cyan)}
+.sort-arw{opacity:.5;font-size:.7em;margin-left:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>DaCameraGirl <span>— Portfolio</span></h1>
+    <div class="sub">104 repositories · June 2025 → August 2026</div>
+  </div>
+  <div class="pill" id="liveCount">104 repos</div>
+</header>
+
+<div class="grid4">
+  <div class="card"><div class="stat-label">Total Repos</div><div class="stat-val pink" id="st_total">104</div><div class="stat-sub">across 14 months</div></div>
+  <div class="card"><div class="stat-label">Public</div><div class="stat-val purple" id="st_public">83</div><div class="stat-sub" id="st_public_pct">79.8% open</div></div>
+  <div class="card"><div class="stat-label">Private</div><div class="stat-val cyan" id="st_private">21</div><div class="stat-sub">in active dev</div></div>
+  <div class="card"><div class="stat-label">Most Active Month</div><div class="stat-val amber" style="font-size:1.45rem" id="st_peak">—</div><div class="stat-sub" id="st_peak_n">repos shipped</div></div>
+</div>
+
+<div class="card chart-card">
+  <h2>Ship Timeline</h2>
+  <div class="chart-wrap"><canvas id="timeline"></canvas></div>
+</div>
+
+<div class="card">
+  <div class="toolbar">
+    <input id="q" placeholder="Search repos…" autocomplete="off">
+    <select id="flt"><option value="all">All repos</option><option value="public">Public only</option><option value="private">Private only</option></select>
+    <span class="count-note" id="rowCount">104 repos</span>
+  </div>
+  <div class="grid-wrap">
+  <table id="grid">
+    <thead><tr>
+      <th data-k="name">Repo <span class="sort-arw">↕</span></th>
+      <th data-k="date">Created <span class="sort-arw">↕</span></th>
+      <th data-k="private">Visibility <span class="sort-arw">↕</span></th>
+      <th>Link</th>
+    </tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  </div>
+</div>
+
+<footer>Built with ♥ · github.com/DaCameraGirl</footer>
+</div>
+
+<script>
+const REPOS = [{"Repo Name": "MiniMe", "Created Date": "June 17, 2025", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/MiniMe"}, {"Repo Name": "ONYX", "Created Date": "June 23, 2025", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/ONYX"}, {"Repo Name": "Pre-Flight_Checklist", "Created Date": "March 23, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Pre-Flight_Checklist"}, {"Repo Name": "Compass-Ultra-Pro", "Created Date": "March 30, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Compass-Ultra-Pro"}, {"Repo Name": "telemetry-flag-adapter", "Created Date": "March 30, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/telemetry-flag-adapter"}, {"Repo Name": "Warehouse-Caption-Checker", "Created Date": "March 30, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Warehouse-Caption-Checker"}, {"Repo Name": "AdamSinAndSaintProtocol", "Created Date": "April 04, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/AdamSinAndSaintProtocol"}, {"Repo Name": "AI-Video-Annotator", "Created Date": "April 19, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/AI-Video-Annotator"}, {"Repo Name": "international-jewelry-box", "Created Date": "April 21, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/international-jewelry-box"}, {"Repo Name": "Public-Profile-Finder", "Created Date": "April 27, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Public-Profile-Finder"}, {"Repo Name": "International_Translator", "Created Date": "April 28, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/International_Translator"}, {"Repo Name": "Project101", "Created Date": "May 01, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Project101"}, {"Repo Name": "OpenClaw-Interactive", "Created Date": "May 01, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/OpenClaw-Interactive"}, {"Repo Name": "OpenClaw-Academy", "Created Date": "May 01, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/OpenClaw-Academy"}, {"Repo Name": "freelance-toolkit", "Created Date": "May 02, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/freelance-toolkit"}, {"Repo Name": "my-Job_Assistant", "Created Date": "May 02, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/my-Job_Assistant"}, {"Repo Name": "time-tracker", "Created Date": "May 02, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/time-tracker"}, {"Repo Name": "My_Mini_Einstein", "Created Date": "May 02, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/My_Mini_Einstein"}, {"Repo Name": "sea-drifter", "Created Date": "May 03, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/sea-drifter"}, {"Repo Name": "Jaxons-Numbers-Games", "Created Date": "May 03, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Jaxons-Numbers-Games"}, {"Repo Name": "Jaxons-Number-Genius-Lab", "Created Date": "May 03, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Jaxons-Number-Genius-Lab"}, {"Repo Name": "Warehouse-Annotator", "Created Date": "May 05, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Warehouse-Annotator"}, {"Repo Name": "compass-ultra-backend", "Created Date": "May 07, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/compass-ultra-backend"}, {"Repo Name": "selection-improvement-experts", "Created Date": "May 07, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/selection-improvement-experts"}, {"Repo Name": "vibe-coding-platform", "Created Date": "May 12, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/vibe-coding-platform"}, {"Repo Name": "Compass-Ultra", "Created Date": "May 15, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Compass-Ultra"}, {"Repo Name": "Quality_Trainer", "Created Date": "May 17, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Quality_Trainer"}, {"Repo Name": "Jaxons_Potty_Time", "Created Date": "May 20, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Jaxons_Potty_Time"}, {"Repo Name": "math-bingo", "Created Date": "May 20, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/math-bingo"}, {"Repo Name": "Compass-Ultra-AI-Dev-Ops", "Created Date": "May 21, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Compass-Ultra-AI-Dev-Ops"}, {"Repo Name": "andys-woodworks", "Created Date": "May 24, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/andys-woodworks"}, {"Repo Name": "agent-platform", "Created Date": "May 24, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/agent-platform"}, {"Repo Name": "gatekeeper", "Created Date": "May 24, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/gatekeeper"}, {"Repo Name": "RoseOps-Studio", "Created Date": "May 27, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/RoseOps-Studio"}, {"Repo Name": "payload-revealer", "Created Date": "May 27, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/payload-revealer"}, {"Repo Name": "vscode-docs", "Created Date": "May 27, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/vscode-docs"}, {"Repo Name": "game-engine-lab", "Created Date": "May 28, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/game-engine-lab"}, {"Repo Name": "pixelforge", "Created Date": "May 28, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/pixelforge"}, {"Repo Name": "FroggerForge", "Created Date": "May 30, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/FroggerForge"}, {"Repo Name": "compass-cli", "Created Date": "May 30, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/compass-cli"}, {"Repo Name": "compass-dashboard", "Created Date": "May 30, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/compass-dashboard"}, {"Repo Name": "compass-slack-bot", "Created Date": "May 30, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/compass-slack-bot"}, {"Repo Name": "compass-vscode", "Created Date": "May 30, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/compass-vscode"}, {"Repo Name": "haunt-city-halloween-heat", "Created Date": "June 03, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/haunt-city-halloween-heat"}, {"Repo Name": "floating-panda-dream", "Created Date": "June 03, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/floating-panda-dream"}, {"Repo Name": "Spectrum", "Created Date": "June 04, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Spectrum"}, {"Repo Name": "pride-game-jam-2026", "Created Date": "June 04, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/pride-game-jam-2026"}, {"Repo Name": "Sporelight", "Created Date": "June 05, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Sporelight"}, {"Repo Name": "OpenClaw-Experts", "Created Date": "June 05, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/OpenClaw-Experts"}, {"Repo Name": "launchpad", "Created Date": "June 06, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/launchpad"}, {"Repo Name": "quantum-command-52", "Created Date": "June 06, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/quantum-command-52"}, {"Repo Name": "vm-sandbox-hardening", "Created Date": "June 07, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/vm-sandbox-hardening"}, {"Repo Name": "shawns-pressure-washing", "Created Date": "June 08, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/shawns-pressure-washing"}, {"Repo Name": "LostLittleGirl", "Created Date": "June 08, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/LostLittleGirl"}, {"Repo Name": "Jaxons-Rhyming-Clock", "Created Date": "June 08, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Jaxons-Rhyming-Clock"}, {"Repo Name": "compass-ultra-poster", "Created Date": "June 08, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/compass-ultra-poster"}, {"Repo Name": "Compass-Ultra-Web-Intel", "Created Date": "June 10, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Compass-Ultra-Web-Intel"}, {"Repo Name": "angel-gates", "Created Date": "June 10, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/angel-gates"}, {"Repo Name": "Chloe_On_A_Pedastal", "Created Date": "June 11, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Chloe_On_A_Pedastal"}, {"Repo Name": "license-zapper", "Created Date": "June 12, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/license-zapper"}, {"Repo Name": "ai-eval-job-radar", "Created Date": "June 12, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/ai-eval-job-radar"}, {"Repo Name": "sunflower-grading", "Created Date": "June 14, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/sunflower-grading"}, {"Repo Name": "dacameragirl.github.io", "Created Date": "June 15, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/dacameragirl.github.io"}, {"Repo Name": "dicom-forge", "Created Date": "June 16, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/dicom-forge"}, {"Repo Name": "slicer-forge", "Created Date": "June 16, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/slicer-forge"}, {"Repo Name": "Bettin2Win", "Created Date": "June 17, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Bettin2Win"}, {"Repo Name": "hydra-evaluator-app", "Created Date": "June 18, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/hydra-evaluator-app"}, {"Repo Name": "Obsidian", "Created Date": "June 19, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Obsidian"}, {"Repo Name": "vibecut-studio", "Created Date": "June 19, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/vibecut-studio"}, {"Repo Name": "lighthouse", "Created Date": "June 21, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/lighthouse"}, {"Repo Name": "libre-design-workspace", "Created Date": "June 21, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/libre-design-workspace"}, {"Repo Name": "links", "Created Date": "June 21, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/links"}, {"Repo Name": "IAI_RESEARCH_GENIE", "Created Date": "June 22, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/IAI_RESEARCH_GENIE"}, {"Repo Name": "groks-work", "Created Date": "June 23, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/groks-work"}, {"Repo Name": "workspace-backup", "Created Date": "June 24, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/workspace-backup"}, {"Repo Name": "latent-observatory", "Created Date": "June 24, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/latent-observatory"}, {"Repo Name": "Vaultline", "Created Date": "June 24, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Vaultline"}, {"Repo Name": "voltline", "Created Date": "June 25, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/voltline"}, {"Repo Name": "solar-planets", "Created Date": "June 26, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/solar-planets"}, {"Repo Name": "whoop-recovery-terrain", "Created Date": "June 27, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/whoop-recovery-terrain"}, {"Repo Name": "whoop-stats-06282026", "Created Date": "June 29, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/whoop-stats-06282026"}, {"Repo Name": "work-hours-tracker", "Created Date": "June 29, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/work-hours-tracker"}, {"Repo Name": "Chases_Parody_GTA_Haunt", "Created Date": "June 30, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Chases_Parody_GTA_Haunt"}, {"Repo Name": "exif-lens", "Created Date": "July 01, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/exif-lens"}, {"Repo Name": "reveal-suite", "Created Date": "July 02, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/reveal-suite"}, {"Repo Name": "whoop-dashboard", "Created Date": "July 04, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/whoop-dashboard"}, {"Repo Name": "Chases_Halloween_Heat_Realism", "Created Date": "July 04, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Chases_Halloween_Heat_Realism"}, {"Repo Name": "photo-to-glb-auto", "Created Date": "July 04, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/photo-to-glb-auto"}, {"Repo Name": "Folly-Beach-Flow", "Created Date": "July 05, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Folly-Beach-Flow"}, {"Repo Name": "dex-workspace", "Created Date": "July 06, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/dex-workspace"}, {"Repo Name": "GLB_FACTORY", "Created Date": "July 06, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/GLB_FACTORY"}, {"Repo Name": "Solitaire", "Created Date": "July 07, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Solitaire"}, {"Repo Name": "The-Atelier", "Created Date": "July 07, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/The-Atelier"}, {"Repo Name": "Worldcraft", "Created Date": "July 07, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Worldcraft"}, {"Repo Name": "BOB_SHELL_ANALYSIS", "Created Date": "July 09, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/BOB_SHELL_ANALYSIS"}, {"Repo Name": "THE_UPSIDE_DOWN_ANGEL", "Created Date": "July 09, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/THE_UPSIDE_DOWN_ANGEL"}, {"Repo Name": "The_Atelier", "Created Date": "July 10, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/The_Atelier"}, {"Repo Name": "whoop-quest", "Created Date": "July 14, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/whoop-quest"}, {"Repo Name": "openclaw-saturday-repo", "Created Date": "July 18, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/openclaw-saturday-repo"}, {"Repo Name": "mobile-mechanics", "Created Date": "July 22, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/mobile-mechanics"}, {"Repo Name": "DeckFlowWeb", "Created Date": "July 24, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/DeckFlowWeb"}, {"Repo Name": "Project_Seal", "Created Date": "August 01, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/Project_Seal"}, {"Repo Name": "gator_bites", "Created Date": "August 08, 2026", "Private": "Yes", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/gator_bites"}, {"Repo Name": "pie-charts", "Created Date": "August 12, 2026", "Private": "No", "Contributors": "DaCameraGirl", "URL": "https://github.com/DaCameraGirl/pie-charts"}];
+
+let filtered = [...REPOS];
+let sortKey = 'date'; let sortDir = 1;
+
+// --- timeline ---
+const monthMap = {};
+REPOS.forEach(r=>{
+  const d = new Date(r['Created Date']);
+  const k = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+  monthMap[k] = (monthMap[k]||0)+1;
+});
+const months = Object.keys(monthMap).sort();
+const labels = months.map(m=>{ const [y,mo]=m.split('-'); return new Date(y,mo-1).toLocaleDateString('en-US',{month:'short', year:'numeric'})});
+const counts = months.map(m=>monthMap[m]);
+
+// peak month
+let peakI = 0; counts.forEach((c,i)=>{ if(c>counts[peakI]) peakI=i });
+document.getElementById('st_peak').textContent = labels[peakI]||'—';
+document.getElementById('st_peak_n').textContent = (counts[peakI]||0)+' repos shipped';
+
+const ctx = document.getElementById('timeline').getContext('2d');
+const grad = ctx.createLinearGradient(0,0,0,240);
+grad.addColorStop(0,'rgba(255,61,154,.45)');
+grad.addColorStop(1,'rgba(139,92,246,.05)');
+new Chart(ctx,{
+  type:'line',
+  data:{labels, datasets:[{label:'Repos', data:counts, fill:true, backgroundColor:grad, borderColor:'#ff3d9a', borderWidth:2.5, tension:.38, pointRadius:3, pointBackgroundColor:'#ff3d9a'}]},
+  options:{maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{color:'#2a1a4a'},ticks:{color:'#a898c8'}}, y:{beginAtZero:true,grid:{color:'#2a1a4a'},ticks:{color:'#a898c8',precision:0}}}}
+});
+
+// --- grid ---
+const tbody = document.getElementById('tbody');
+function render(){
+  tbody.innerHTML='';
+  filtered.forEach(r=>{
+    const tr=document.createElement('tr');
+    const isPrivate = (r.Private+'').toLowerCase()==='yes' || r.Private===true;
+    tr.innerHTML = `<td class="repo-name"><a href="${r.URL}" target="_blank" rel="noopener">${r['Repo Name']}</a></td>
+      <td class="date-col">${r['Created Date']}</td>
+      <td><span class="badge ${isPrivate?'badge-private':'badge-public'}">${isPrivate?'Private':'Public'}</span></td>
+      <td><a href="${r.URL}" target="_blank">↗</a></td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('rowCount').textContent = filtered.length+' repos';
+  document.getElementById('liveCount').textContent = filtered.length+' repos';
+}
+function applyFilter(){
+  const q = document.getElementById('q').value.toLowerCase();
+  const f = document.getElementById('flt').value;
+  filtered = REPOS.filter(r=>{
+    const isPrivate = (r.Private+'').toLowerCase()==='yes' || r.Private===true;
+    if(f==='public' && isPrivate) return false;
+    if(f==='private' && !isPrivate) return false;
+    if(q && !r['Repo Name'].toLowerCase().includes(q)) return false;
+    return true;
+  });
+  doSort(false);
+  render();
+}
+function doSort(toggle=true){
+  filtered.sort((a,b)=>{
+    let av,bv;
+    if(sortKey==='name'){ av=a['Repo Name'].toLowerCase(); bv=b['Repo Name'].toLowerCase(); }
+    else if(sortKey==='date'){ av=new Date(a['Created Date']); bv=new Date(b['Created Date']); }
+    else { av=(a.Private+'').toLowerCase()==='yes'?1:0; bv=(b.Private+'').toLowerCase()==='yes'?1:0; }
+    if(av<bv) return -sortDir;
+    if(av>bv) return sortDir;
+    return 0;
+  });
+}
+document.querySelectorAll('#grid thead th[data-k]').forEach(th=>{
+  th.onclick=()=>{
+    const k=th.dataset.k;
+    if(sortKey===k) sortDir*=-1; else {sortKey=k; sortDir=1;}
+    doSort(false); render();
+  };
+});
+document.getElementById('q').addEventListener('input', applyFilter);
+document.getElementById('flt').addEventListener('change', applyFilter);
+applyFilter();
+</script>
+</body>
+</html>
