@@ -41,6 +41,12 @@ h1 span{background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan));
 .toolbar input,.toolbar select{background:#1a0f32;border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:.9rem;outline:none}
 .toolbar input{flex:1;min-width:200px}
 .toolbar input:focus,.toolbar select:focus{border-color:var(--purple)}
+.filter-box{display:flex;gap:8px;background:#1a0f32;border:1px solid var(--border);border-radius:10px;padding:5px}
+.filter-btn{background:transparent;border:1px solid transparent;color:var(--muted);border-radius:8px;padding:5px 14px;font-family:inherit;font-size:.84rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.filter-btn:hover{color:var(--text)}
+.filter-btn.on-public{background:#34d39922;color:#34d399;border-color:#34d39933}
+.filter-btn.on-private{background:#fbbf2422;color:var(--amber);border-color:#fbbf2433}
+.filter-btn.off{opacity:.45}
 .badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:.72rem;font-weight:600}
 .badge-private{background:#fbbf2422;color:var(--amber);border:1px solid #fbbf2433}
 .badge-public{background:#34d39922;color:var(--green);border:1px solid #34d39933}
@@ -88,7 +94,10 @@ a{color:var(--cyan)}
 <div class="card">
   <div class="toolbar">
     <input id="q" placeholder="Search repos…" autocomplete="off">
-    <select id="flt"><option value="all">All repos</option><option value="public">Public only</option><option value="private">Private only</option></select>
+    <div class="filter-box" role="group" aria-label="Visibility filter">
+      <button class="filter-btn on-public" id="btnPublic" type="button">● Public</button>
+      <button class="filter-btn on-private" id="btnPrivate" type="button">● Private</button>
+    </div>
     <span class="count-note" id="rowCount">104 repos</span>
   </div>
   <div class="grid-wrap">
@@ -157,11 +166,12 @@ function render(){
 }
 function applyFilter(){
   const q = document.getElementById('q').value.toLowerCase();
-  const f = document.getElementById('flt').value;
+  const showPublic = document.getElementById('btnPublic').classList.contains('on-public');
+  const showPrivate = document.getElementById('btnPrivate').classList.contains('on-private');
   filtered = REPOS.filter(r=>{
     const isPrivate = (r.Private+'').toLowerCase()==='yes' || r.Private===true;
-    if(f==='public' && isPrivate) return false;
-    if(f==='private' && !isPrivate) return false;
+    if(isPrivate && !showPrivate) return false;
+    if(!isPrivate && !showPublic) return false;
     if(q && !r['Repo Name'].toLowerCase().includes(q)) return false;
     return true;
   });
@@ -187,7 +197,16 @@ document.querySelectorAll('#grid thead th[data-k]').forEach(th=>{
   };
 });
 document.getElementById('q').addEventListener('input', applyFilter);
-document.getElementById('flt').addEventListener('change', applyFilter);
+document.getElementById('btnPublic').onclick = ()=>{
+  document.getElementById('btnPublic').classList.toggle('on-public');
+  document.getElementById('btnPublic').classList.toggle('off');
+  applyFilter();
+};
+document.getElementById('btnPrivate').onclick = ()=>{
+  document.getElementById('btnPrivate').classList.toggle('on-private');
+  document.getElementById('btnPrivate').classList.toggle('off');
+  applyFilter();
+};
 applyFilter();
 </script>
 </body>
